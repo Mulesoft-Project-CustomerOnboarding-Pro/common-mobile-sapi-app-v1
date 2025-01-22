@@ -1,0 +1,9 @@
+http.listener.host: "0.0.0.0"
+http.listener.port: "8081"
+http.listener.readtimeout: "60000"
+
+
+smtp.host: "smtp.gmail.com"
+smtp.port: "587"
+smtp.user: "![iQ9upT8oGM8Bo86csxpdz0V/BdGhwkYZ]"
+smtp.password: "dimx frhg tyey pbxv"

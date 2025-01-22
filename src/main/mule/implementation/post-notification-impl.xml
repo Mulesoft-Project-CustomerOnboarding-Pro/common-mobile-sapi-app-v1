@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<sub-flow name="post-notification-implSub_Flow" doc:id="3d73fc97-88c2-40da-b79c-fc86bcb0c648" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="1451727f-0abb-443e-9a7a-1a612839aa8b" message="#[{ 	&#10;    TimeStamp: (now() &gt;&gt; &quot;UTC&quot;)  as String {format: &quot;yyyy-MM-dd:hh-mm-ss&quot;},&#10;    transactionId: vars.headers.'x-cms-transactionId:',&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Notification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;SMTP server&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;Request SMTP&quot; &#10;}]"/>
+		<email:send doc:name="Send" doc:id="8f6bdef4-539d-4680-8353-cdd746aa8925" toAddresses="#[[vars.requestData.payload.email]]" config-ref="Email_SMTP" fromAddress="${secure::smtp.user}" subject="Account creation confirmation ">
+			<email:body >
+				<email:content ><![CDATA[#["Hi " ++ vars.requestData.payload.firstName ++ vars.requestData.payload.lastName ++ "your Account created successfully with Username:" ++ vars.requestData.payload.email]]]></email:content>
+			</email:body>
+		</email:send>
+		<logger level="INFO" doc:name="End Logger" doc:id="11f813b6-197d-4393-8420-1afeb7432671" message="#[{ 	&#10;    TimeStamp: (now() &gt;&gt; &quot;UTC&quot;)  as String {format: &quot;yyyy-MM-dd:hh-mm-ss&quot;},&#10;    transactionId: vars.headers.'x-cms-transactionId:',&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Notification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;SMTP server&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;Response SMTP&quot; &#10;}]"/>
+	</sub-flow>
+</mule>
